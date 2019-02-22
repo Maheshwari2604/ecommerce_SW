@@ -7,6 +7,7 @@ from django.shortcuts import render
 
 
 def home(request):
+    #print request.session['user_id']
     products = product.objects.all()
 
     context = {
@@ -36,6 +37,7 @@ def search(request):
 
 def detail(request, slug):
     #try:
+        print "hey u r in detail view"
         details = product.objects.get(slug=slug)
         context = {
             'details': details

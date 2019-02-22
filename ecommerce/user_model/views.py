@@ -35,10 +35,11 @@ from django.contrib.auth.hashers import make_password , check_password
 # Create your views here.
 def user_signup(request):
     try:
-
+        print "in try"
     #csrfContext = RequestContext(request)
         print ("hey")
         if request.method == 'POST':
+            print "register in post"
             #form = SignupForm(request.POST or None)
             #if form.is_valid():
             #password = form.cleaned_data['password']
@@ -92,8 +93,12 @@ def user_signup(request):
             }
                 return render(request,'user_model/register.html', context)
         else:
+            print "no_post but error"
+            del request.session['user_id']
+            del request.session['cart_id'] 
             return render(request, 'user_model/register.html')
     except:
+        print 'no post'
         #return render(request, 'user_model/error.html')    
         return render(request, 'user_model/register.html')
 
@@ -161,7 +166,7 @@ def user_login(request):
             #    print "error"
             #return HttpResponse(user)
             #return HttpResponse(user.username)
-        if user:
+            if user:
                 print(user)
                 #return HttpResponse(user.id)
                 #request.session['signupp_id'] = user
@@ -170,6 +175,7 @@ def user_login(request):
                 request.session['user_id'] = user.id
                 new_id = user.id
                 user.save()
+                print new_id
                 #print (request.session['user_id'])
                 #return render(request,'S_W/error.html',{'username':username})
                 #login(request, user)
@@ -177,7 +183,7 @@ def user_login(request):
                 #return HttpResponse(uu)
                 #request.session['email_confirmed'] = True 
 
-                return HttpResponseRedirect(reverse('user_home'))
+                return HttpResponseRedirect(reverse('home'))
             #else:
                 #context['error'] = "Error in Connection"
                 #return render(request, 'S_W/error.html', context)
@@ -390,4 +396,32 @@ def user_home(request):
         context = {
             "message" : "please login your account"
         }
-        return HttpResponseRedirect(reverse('home'))    
+        return HttpResponseRedirect(reverse('home'))  
+
+
+def logout(request):
+   try:
+      del request.session['user_id']
+      del request.session['cart_id']
+   except:
+      pass
+   return HttpResponse("<strong>You are logged out.</strong>")
+
+
+
+# def profile(request):
+    
+#     #the_id = request.session['cart_id']
+#     try:
+#         if the_id:
+#             print "hey profile"
+#             register_mod = register_model.objects.get(id = the_id)
+#             print register_mod
+#             context = {
+#                 'register_mod' : register_mod
+#             }
+#             return render(request, 'profilee/profile.html', context)
+#         else:
+#             print 'no profile'
+#     except:
+#         print 'no the_id'  

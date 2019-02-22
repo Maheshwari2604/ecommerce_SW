@@ -1,11 +1,56 @@
 {% extends 'products/base.html' %}
 
 {% block cart %} {% load staticfiles %}
+
+<div class="colorlib-intro">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 text-center">
+                    <h2 class="text-warning">Personal Details</h2>
+                    <div class="row">
+                            <div class="col text-left ">                                
+                                    <h4><span class="text-success">{{ register_models.firstname }} {{ register_models.lastname }}</span></h4>
+                            </div>
+                            <div class="col text-right p-0">
+                                    <a href="#"><h4><span class="text-success">Change<i class="fa fa-pencil" aria-hidden="true"></i></span></h4></a>
+                                
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+
+
+<div class="colorlib-intro">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 text-center">
+                    <h2 class="text-warning">Delivering Food To</h2>
+                    <div class="row">
+                            <div class="col text-left ">                                
+                                    <h4><span class="text-success">Address</span></h4>
+                            </div>
+                            <div class="col text-right p-0">
+                                
+                                <h4>
+                                    <a href="#"><span class="text-success">Change<i class="fa fa-pencil" aria-hidden="true"></i></span></a>
+                                </h4>
+                                
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+
+
 <br>
+
 
 <div class="container">
 {% if empty %}
-    <h1>{{  message }}</h1>
+    <h1 class="text-center">{{  message }}</h1>
 {% endif %}
 
     <div class='col-sm-12 col-sm-offset-2'>
@@ -45,7 +90,7 @@
                 <b>{{ item.product }}</b>
             </td>
             <td>
-                <img src="{{ MEDIA_URL }}{{ item.product_Image.image }}" class="img-responsive" style="width:80%; height: 100px; margin: 0%;">
+                <img src="{% static 'images/dafault_image.png' %}" class="img-responsive" style="width:80%; height: 100px; margin: 0%;">
             </td>
             <td>
                 {{ item.quantity }}
@@ -76,7 +121,8 @@
 {% endblock %}
 
 
-{% block line %} 
+{% block line %}
+
 
 <div class="colorlib-intro">
     <div class="container">
@@ -98,7 +144,7 @@
         <div class="col-md-4 col-sm-12 col-12">
             <div class="card border-dark mb-4" style="width:100%;">
                 {% for item in product.product_image_set.all %}
-                    <img class="card-img-top" style="height:250px;" src="{{ MEDIA_URL }}{{ item.image }}" alt="Card image cap">
+                    <img class="card-img-top" style="height:250px;" src="{% static 'images/dafault_image.png' %}" alt="Card image cap">
                 {% endfor %}
                 <div class="card-body">
 
@@ -136,7 +182,7 @@
                             {% csrf_token %}
                             <input type="hidden" id="carth" name="carth">
                             <!--<input type="number" id="carth" name="qty">-->
-                            <button class="btn   btn-outline-primary atc" style="padding-left:10px; width: 100%;" type="submit"><a href="#">Add to Cart (<span id="cartqty">1</span>) </a></button>
+                            <button class="btn   btn-outline-primary atc" style="padding-left:10px; width: 100%;" type="submit">Add to Cart (<span id="cartqty">1</span>)</button>
                         </form>
                         <div class="col-1 p-0"></div>
                         <button class="btn col-2  btn-danger " style=" margin-left:-10px;" id="subbtn"><i
@@ -154,6 +200,7 @@
         border-radius: 40px;
         transition: all 0.5s;
     }
+    
     
     .btn:hover {
         transform: scale(1.05);

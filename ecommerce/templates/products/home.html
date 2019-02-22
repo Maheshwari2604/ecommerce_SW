@@ -68,12 +68,17 @@
 
 {% block search %}
 
-    <div class="form-group">
-        <form role="search" action="/search/">
-            <input type="search" name="Keyword" class="form-control search" style="display: none;position: absolute;" placeholder="Search">
-            <button class="btn-search btn-primary submit-search text-center" type="submit"><i class="icon-search"></i></button>
-        </form>
+<div class="row">
+    <div class="col-sm-12 text-left menu-1">
+        <ul>
+            <li class="float-right"><a href="{% url 'user_login' %}">Login</a></li>
+            <li class="float-right"><a href="{% url 'user_signup' %}">Register</a></li>
+            <li class="float-right"><a href="{% url 'logout' %}">Logout</a></li>
+            
+        </ul>
     </div>
+</div>
+
 
 {% endblock %}
 
@@ -98,7 +103,9 @@
         <div class="col-md-4 col-sm-12 col-12">
             <div class="card border-dark mb-4" style="width:100%;">
                 {% for item in product.product_image_set.all %}
-                    <img class="card-img-top" style="height:250px;" src="{{ MEDIA_URL }}{{ item.image }}" alt="Card image cap">
+                <a href="{% url 'details' product.slug %}">
+                    <img class="card-img-top" style="height:250px;" src="{% static 'images/dafault_image.png' %}" alt="Card image cap">
+                </a>
                 {% endfor %}
                 <div class="card-body">
 
@@ -106,7 +113,9 @@
                                 
                                 <div class="col text-center p-0">
                                     
-                                        <span class="text-darken-4"><h6>{{ product.title }}</h6></span>
+                                        <a href="{% url 'details' product.slug %}">
+                                            <span class="text-darken-4"><h6>{{ product.title }}</h6></span>
+                                        </a> 
                                 </div>
                                 
                         </div>
@@ -136,7 +145,7 @@
                             {% csrf_token %}
                             <input type="hidden" id="carth" name="carth">
                             <!--<input type="number" id="carth" name="qty">-->
-                            <button class="btn   btn-outline-primary atc" style="padding-left:10px; width: 100%;" type="submit"><a href="#">Add to Cart (<span id="cartqty">1</span>) </a></button>
+                            <a href="#"><button class="btn   btn-outline-primary atc" style="padding-left:10px; width: 100%;" type="submit">Add to Cart (<span id="cartqty">1</span>) </button></a>
                         </form>
                         <div class="col-1 p-0"></div>
                         <button class="btn col-2  btn-danger " style=" margin-left:-10px;" id="subbtn"><i
