@@ -7,7 +7,7 @@ from django.shortcuts import render
 
 
 def home(request):
-    #print request.session['user_id']
+#    print request.session['user_id']
     products = product.objects.all()
 
     context = {

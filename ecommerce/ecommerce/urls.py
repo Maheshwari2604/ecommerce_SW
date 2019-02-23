@@ -18,7 +18,7 @@ from django.contrib import admin
 from user_model.views import user_signup, user_login, activate, user_home,password_reset, activate_password, password_reset_new, logout
 from products.views import home, search, detail
 from cart.views import view, cart_update
-from profilee.views import profile
+from profilee.views import profile, edit_profile_page, edit_address
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -40,7 +40,9 @@ urlpatterns = [
     url(r'^profile/', profile, name='profile'),
     url(r'^password_reset/', password_reset , name='password_reset'),
     url(r'^password_reset_new/', password_reset_new, name='password_reset_new'),
-    url(r'^logout/', logout, name='logout')
+    url(r'^edit_profile/', edit_profile_page, name='edit_profile_page'),
+    url(r'^edit_address/', edit_address, name='edit_address'),
+    url(r'^logout/', logout, name='logout'),
     
     
 ]

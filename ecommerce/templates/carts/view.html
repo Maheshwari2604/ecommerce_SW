@@ -2,51 +2,40 @@
 
 {% block cart %} {% load staticfiles %}
 
+
+
+<div class="container mt-5 w-75">
+        <h4> Delivering To :<span class="text-danger">  {{ register_models.firstname }} {{ register_models.lastname }}</span>
+            <a href="{% url 'edit_profile_page'%}"> <i class="fas fa-user-edit  float-right text-danger"></i></a>
+        </h4>
+
+        <h4>
+            Delivering At :
+            {% for i in add %}
+            <span class="text-info"> {{ i.service_area }}, {{ i.local_address }} </span>
+            {% endfor %}
+            <a href="{% url 'edit_address' %}"> <i class="fas fa-pencil-alt  float-right text-info"></i> </a>
+        </h4>
+</div>
+
 <div class="colorlib-intro">
         <div class="container">
             <div class="row">
                 <div class="col-sm-12 text-center">
-                    <h2 class="text-warning">Personal Details</h2>
+                    <h2 class="text-warning">Add Promo-Code</h2>
                     <div class="row">
-                            <div class="col text-left ">                                
-                                    <h4><span class="text-success">{{ register_models.firstname }} {{ register_models.lastname }}</span></h4>
+                            <div class="col text-left">                                
+                                    <input class="col-12" type="text" id="carth" name="carth">
+                                    <button class="btn   btn-outline-primary atc" style="padding-left:10px; width: 100%;" type="submit">Apply</button>
                             </div>
-                            <div class="col text-right p-0">
-                                    <a href="#"><h4><span class="text-success">Change<i class="fa fa-pencil" aria-hidden="true"></i></span></h4></a>
-                                
-                            </div>
+                            
+                            
                     </div>
                 </div>
             </div>
         </div>
 </div>
-
-
-<div class="colorlib-intro">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12 text-center">
-                    <h2 class="text-warning">Delivering Food To</h2>
-                    <div class="row">
-                            <div class="col text-left ">                                
-                                    <h4><span class="text-success">Address</span></h4>
-                            </div>
-                            <div class="col text-right p-0">
-                                
-                                <h4>
-                                    <a href="#"><span class="text-success">Change<i class="fa fa-pencil" aria-hidden="true"></i></span></a>
-                                </h4>
-                                
-                            </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-</div>
-
-
 <br>
-
 
 <div class="container">
 {% if empty %}
@@ -139,118 +128,117 @@
 
 {% block body %} {% load staticfiles %}
 <div class="container mt-4 w-75">
-    <div class="row">
-        {% for product in products %}
-        <div class="col-md-4 col-sm-12 col-12">
-            <div class="card border-dark mb-4" style="width:100%;">
+        <div class="row">
+            {% for product in products %}
+            <div class="col-md-4 col-sm-12 col-12">
                 {% for item in product.product_image_set.all %}
-                    <img class="card-img-top" style="height:250px;" src="{% static 'images/dafault_image.png' %}" alt="Card image cap">
-                {% endfor %}
-                <div class="card-body">
-
+                <div class="card border-dark mb-4" style="width:100%;">
+                    <a href="{% url 'details' product.slug %}">
+                        <img class="card-img-top" style="height:250px;" src="{% static 'images/dafault_image.png' %}" alt="Card image cap"> {% endfor %}
+                    </a>
+                    <div class="card-body">
+    
                         <div class="row">
-                                
-                                <div class="col text-center p-0">
-                                    
-                                        <span class="text-darken-4"><h6>{{ product.title }}</h6></span>
-                                </div>
-                                
-                        </div>
-
-                    <div class="row">
-                        <div class="col">
-                            {% for item in product.product_price_set.all %}
-                                <span class="text-muted">M.R.P: <del> {{item.mrp}} </del></span>
-                            {% endfor %}
-                        </div>
-                        <div class="col text-right p-0">
-                            {% for item in product.product_price_set.all %}
-                                <span class="text-darken-4"><i class="fas fa-rupee-sign"></i> {{ item.price }}(Kg)</span>
-                            {% endfor %}
+    
+                            <div class="col text-center p-0">
+    
+                                <a href="{% url 'details' product.slug %}">
+                                    <span class="text-darken-4"><h6>{{ product.title }}</h6></span>
+                                </a>
                             </div>
-                        <div class="col text-left pr-1">
-                            {% for item in product.product_discount_set.all %}
-                                <span class="text-success"> {{ item.Offer_in_percentage }}% OFF</span>
-                            {% endfor %}
+    
                         </div>
-                    </div>
-                    <div class="row mt-3">
-                        <button id="addbtn" class="btn col-2 btn-success" style="margin-left: 10px; margin-right:-10px;"><i
+    
+                        <div class="row">
+                            <div class="col">
+                                {% for item in product.product_price_set.all %}
+                                <span class="text-muted">M.R.P: <del> {{item.mrp}} </del></span> {% endfor %}
+                            </div>
+                            <div class="col text-right p-0">
+                                {% for item in product.product_price_set.all %}
+                                <span class="text-darken-4"><i class="fas fa-rupee-sign"></i> {{ item.price }}(Kg)</span> {% endfor %}
+                            </div>
+                            <div class="col text-left pr-1">
+                                {% for item in product.product_discount_set.all %}
+                                <span class="text-success"> {{ item.Offer_in_percentage }}% OFF</span> {% endfor %}
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <button id="addbtn{{forloop.counter}}" class="btn col-2 btn-success" style="margin-left: 10px; margin-right:-10px;"><i
                                 class="fa fa-plus" style="position: absolute;top:25%;right:25%;"></i></button>
-                        <div class="col-1 p-0" style="width: 10px !important;"></div>
-                        <form method="GET" class="col-6" action="{% url 'cart_update' product.slug %}">
-                            {% csrf_token %}
-                            <input type="hidden" id="carth" name="carth">
-                            <!--<input type="number" id="carth" name="qty">-->
-                            <button class="btn   btn-outline-primary atc" style="padding-left:10px; width: 100%;" type="submit">Add to Cart (<span id="cartqty">1</span>)</button>
-                        </form>
-                        <div class="col-1 p-0"></div>
-                        <button class="btn col-2  btn-danger " style=" margin-left:-10px;" id="subbtn"><i
+                            <form method="GET" class="col col-xl-8 col-sm-6 ml-1 mr-1" action="{% url 'cart_update' product.slug  %}">
+                                {% csrf_token %}
+                                <input type="hidden" value="1" name="carth">
+                                <button class="btn btn-outline-primary atc" style="padding-left:10px; width: 100%;" type="submit">Add to Cart (<span id="cartqty{{forloop.counter}}">1</span>) </button>
+                            </form>
+                            <button class="btn col-2  btn-danger " style=" margin-left:-10px;" id="subbtn{{forloop.counter}}"><i
                                 class="fas fa-minus" style="position: absolute;top:25%;right:25%;"></i></button>
+                        </div>
                     </div>
                 </div>
             </div>
+            <script>
+                $('#carth').val('0')
+                $('#addbtn{{forloop.counter}}').on('click', function() {
+                    items = parseInt(document.getElementById('cartqty{{forloop.counter}}').innerText);
+                    if (items <
+                        20) {
+                        items += 1;
+                    }
+                    $('#cartqty{{forloop.counter}}').html(items)
+                    $('[name="carth"]').val(items)
+                });
+                $('#subbtn{{forloop.counter}}').on('click', function() {
+                    items = parseInt(document.getElementById('cartqty{{forloop.counter}}').innerText);
+                    if (items > 1) {
+                        items -= 1;
+                    }
+                    $('#cartqty{{forloop.counter}}').html(items)
+                    $('[name="carth"]').val(items)
+                });
+            </script>
+            {% endfor %}
+            <span type="hidden" id="hspan" name="hspan">
         </div>
-        {% endfor %}
     </div>
-</div>
-
-<style>
-    .btn {
-        border-radius: 40px;
-        transition: all 0.5s;
-    }
     
-    
-    .btn:hover {
-        transform: scale(1.05);
-        transition: all 0.2s;
-    }
-    
-    .card {
-        transition: all 0.5s;
-    }
-    
-    .card:hover {
-        transition: all 0.2s;
-        transform: scale(1.01);
-    }
-    
-    @media screen and (min-width: 600px) and (max-width:1000px) {
-        .atc {
-            font-size: 10px;
+    <style>
+        .btn {
+            border-radius: 40px;
+            transition: all 0.5s;
         }
-    }
+        
+        .btn:hover {
+            transform: scale(1.05);
+            transition: all 0.2s;
+        }
+        
+        .card {
+            transition: all 0.5s;
+        }
+        
+        .card:hover {
+            transition: all 0.2s;
+            transform: scale(1.01);
+        }
+        
+        @media screen and (min-width: 600px) and (max-width:1000px) {
+            .atc {
+                font-size: 1rem;
+            }
+        }
+        
+        @media screen and (max-width: 550px) {
+            .atc {
+                font-size: 0.7rem;
+            }
+        }
+        
+        @media screen and (max-width: 450px) {
+            .col {
+                padding: 0px;
+            }
+        }
+    </style>
     
-    @media screen and (max-width: 550px) {
-        .atc {
-            font-size: 10px;
-        }
-    }
-    
-    @media screen and (max-width: 450px) {
-        .col {
-            padding: 0px;
-        }
-    }
-</style>
-<script>
-    console.log('hello');
-    $('#addbtn').on('click', function() {
-        items = parseInt(document.getElementById('cartqty').innerText);
-        if (items <
-            20) {
-            items += 1;
-        }
-        $('#cartqty').html(items)
-    });
-    $('#subbtn').on('click', function() {
-        items = parseInt(document.getElementById('cartqty').innerText);
-        if (items > 1) {
-            items -= 1;
-        }
-        $('#cartqty').html(items)
-    });
-</script>
-
-{% endblock %}
+    {% endblock %}

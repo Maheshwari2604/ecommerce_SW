@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from products.models import product
-from user_model.models import register_model
+from user_model.models import register_model, address
 from cart.models import carttotal, cartitem
 from django.shortcuts import render, HttpResponseRedirect, reverse, HttpResponse
 
@@ -16,6 +16,8 @@ def view(request):
             if the_userid:
                 print 'hey1111'
                 register_models = register_model.objects.get(id = the_userid)
+                add = register_models.address_set.all()
+                print add
                 try:
                     the_id = request.session['cart_id']
                     print the_id
@@ -36,13 +38,17 @@ def view(request):
                     print register_models
                     cart = carttotal.objects.get(id=the_id)
                     print "heyy2"
-                    context = {"cart":cart, "products": products, "register_models": register_models}    
+                    print add
+
+                    context = {"cart":cart, "products": products, "register_models": register_models, "add":add }
+                    return render(request, 'carts/view.html', context)  
                 else:
                     print "hey3"
                     products = product.objects.all()
                     message = "Please do shoping, you have nothing in your cart"
                     context = {"empty": True, "message": message, "products": products}
-                #template = "cart/view.html"
+                    #template = "cart/view.html"
+
                 return render(request, 'carts/view.html', context)
 
             else:
@@ -65,7 +71,7 @@ def view(request):
                     'message': 'Please Login your account and if you are a new user than register first and than proceed' 
                 }
 
-    return render(request, 'user_model/error.html', context)
+    #return render(request, 'user_model/error.html', context)
 
 
 def cart_update(request, slug):

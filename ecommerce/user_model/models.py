@@ -40,4 +40,4 @@ class address(models.Model):
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
 
     def __unicode__(self):
-        return 'Address of %s' % (self.user.firstname)
+        return str(self.user)
